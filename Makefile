@@ -30,13 +30,13 @@ re: $(TARGET)
  
 debug: CFLAGS += $(DEBUGFLAGS)
 debug: distclean $(OBJECTS) $(COMMON)
-	-ctags -R .
+	-ctags src/* include/*
 	$(CC) $(FLAGS) $(CFLAGS) -o $(TARGET) $(OBJECTS) $(LDFLAGS)
 
 $(TARGET): CFLAGS += $(RELEASEFLAGS)
 $(TARGET): distclean $(OBJECTS) $(COMMON)
 	$(CC) $(FLAGS) $(CFLAGS) -o $(TARGET) $(OBJECTS) $(LDFLAGS)
-	strip -s $(TARGET)
+	strip --strip-all $(TARGET) || strip -Sx $(TARGET) # osx fallback
 
 profile: CFLAGS += -pg
 profile: distclean $(TARGET)

@@ -18,6 +18,7 @@ which ctags 2>/dev/null && test -f tags
 test -f duplicut -a -x duplicut
 ./duplicut &> /dev/null
 # check there is debug symbols AND NO profiling info
+nm --debug-syms duplicut
 nm --debug-syms duplicut | grep -Eq '\s+N\s+\.debug_[a-z]+'
 ! test -e gmon.out
 
@@ -57,6 +58,7 @@ make release
 ./duplicut &> /dev/null
 # ensure there no profile information nor debug symbol
 ! test -e gmon.out
+! nm --debug-syms duplicut
 ! nm --debug-syms duplicut | grep -Eq '\s+N\s+\.debug_[a-z]+'
 
 # ensure /proc/meminfo is there
